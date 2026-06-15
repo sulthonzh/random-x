@@ -1,0 +1,31 @@
+{
+  "name": "random-x",
+  "version": "1.0.0",
+  "description": "Zero-dependency seeded PRNG utilities — shuffle, sample, weighted pick, gaussian, and more",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./cli.js": "./src/cli.js"
+  },
+  "bin": {
+    "random-x": "./src/cli.js"
+  },
+  "scripts": {
+    "test": "node --test test/index.test.js"
+  },
+  "keywords": [
+    "random",
+    "prng",
+    "seeded",
+    "shuffle",
+    "fisher-yates",
+    "weighted",
+    "gaussian",
+    "mulberry32",
+    "xorshift",
+    "sampling"
+  ],
+  "license": "MIT",
+  "author": "sulthonzh"
+}
