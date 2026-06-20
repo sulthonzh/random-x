@@ -1,6 +1,6 @@
 {
   "name": "random-x",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Zero-dependency seeded PRNG utilities — shuffle, sample, weighted pick, gaussian, and more",
   "type": "module",
   "main": "./src/index.js",
@@ -12,7 +12,9 @@
     "random-x": "./src/cli.js"
   },
   "scripts": {
-    "test": "node --test test/index.test.js"
+    "test": "node --test test/index.test.js",
+    "test:core": "node --test test/index.test.js",
+    "prepublishOnly": "npm test"
   },
   "keywords": [
     "random",
@@ -27,5 +29,18 @@
     "sampling"
   ],
   "license": "MIT",
-  "author": "sulthonzh"
+  "author": "sulthonzh",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sulthonzh/random-x.git"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "src/",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ]
 }

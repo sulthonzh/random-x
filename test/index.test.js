@@ -4,7 +4,11 @@ import {
   Random, createRandom, mulberry32, xoshiro128ss,
   resolveSeed, splitMix32, expandSeed,
   random, int, float, bool, shuffle, pick, sample, weighted, gaussian,
+  VERSION,
 } from '../src/index.js';
+import { execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
 
 // ── PRNG algorithm tests ────────────────────────────────────────────
 
@@ -532,4 +536,49 @@ test('xoshiro128ss has reasonable chi-square distribution', () => {
   const expected = 10000;
   const chiSquare = buckets.reduce((s, c) => s + ((c - expected) ** 2) / expected, 0);
   assert.ok(chiSquare < 50, `chi-square ${chiSquare.toFixed(2)} too high — buckets: ${buckets.join(', ')}`);
+});
+
+// ── VERSION constant tests ─────────────────────────────────────────
+
+test('VERSION constant exists and is string', () => {
+  assert.equal(typeof VERSION, 'string');
+});
+
+test('VERSION follows semver format', () => {
+  const semverPattern = /^\d+\.\d+\.\d+(-[a-zA-Z0-9.-]+)?$/;
+  assert.match(VERSION, semverPattern, `VERSION ${VERSION} not semver`);
+});
+
+test('VERSION matches package.json version', async () => {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
+  const pkgPath = join(__dirname, '../package.json');
+  const pkg = JSON.parse(await import('fs').then(fs => fs.readFileSync(pkgPath, 'utf-8')));
+  assert.equal(VERSION, pkg.version, `VERSION ${VERSION} != package.json ${pkg.version}`);
+});
+
+// ── CLI version flags tests ─────────────────────────────────────────
+
+test('CLI --version flag outputs version', () => {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
+  const cliPath = join(__dirname, '../src/cli.js');
+  const output = execFileSync(process.execPath, [cliPath, '--version'], { encoding: 'utf-8' }).trim();
+  assert.equal(output, VERSION, `CLI --version output ${output} != VERSION ${VERSION}`);
+});
+
+test('CLI -V flag outputs version', () => {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
+  const cliPath = join(__dirname, '../src/cli.js');
+  const output = execFileSync(process.execPath, [cliPath, '-V'], { encoding: 'utf-8' }).trim();
+  assert.equal(output, VERSION, `CLI -V output ${output} != VERSION ${VERSION}`);
+});
+
+test('CLI version command outputs version', () => {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
+  const cliPath = join(__dirname, '../src/cli.js');
+  const output = execFileSync(process.execPath, [cliPath, 'version'], { encoding: 'utf-8' }).trim();
+  assert.equal(output, VERSION, `CLI version output ${output} != VERSION ${VERSION}`);
 });

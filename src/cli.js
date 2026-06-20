@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { Random, createRandom } from './index.js';
+import { Random, createRandom, VERSION } from './index.js';
 
 const args = process.argv.slice(2);
 const command = args[0] || 'help';
@@ -44,6 +44,11 @@ Options:
 `;
 
 switch (command) {
+  case 'version':
+  case '--version':
+  case '-V':
+    console.log(VERSION);
+    break;
   case 'int': {
     const min = parseInt(args[1]) || 0;
     const max = parseInt(args[2]) || 100;
