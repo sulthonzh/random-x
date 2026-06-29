@@ -14,6 +14,7 @@
   "scripts": {
     "test": "node --test test/index.test.js",
     "test:core": "node --test test/index.test.js",
+    "test:coverage": "c8 --reporter=text node --test test/index.test.js",
     "prepublishOnly": "npm test"
   },
   "keywords": [
