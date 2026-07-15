@@ -1,3 +1,6 @@
+# GitHub Actions Release Workflow
+# Automated release pipeline: checkout, setup, install, build, test, publish via Changesets
+
 name: Release
 
 on:

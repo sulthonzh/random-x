@@ -1,3 +1,6 @@
+# Changeset Configuration
+# This file controls how changesets manages versioning and publishing for this package.
+# Do not modify unless you understand the impact on versioning.
 {
   "$schema": "https://unpkg.com/@changesets/config@3.0.0/schema.json",
   "changelog": "@changesets/cli/changelog",
