@@ -1,6 +1,6 @@
 # random-x Quality Audit Report
 
-**Audit Date:** 2026-07-18
+**Audit Date:** 2026-07-18 (re-audited from 2026-07-15)
 **Auditor:** oss-builder cron
 **Version:** 1.1.0
 **Status:** ✅ EXCEPTIONAL
@@ -24,18 +24,23 @@ Zero-dependency seeded PRNG utilities for JavaScript. 64 tests, 100% pass rate, 
 **VERIFIED:** Yes
 - Installation: `npm install random-x`
 - Quick start code works in README
-- Tests run successfully: 126/126 GREEN (100% pass rate)
+- Tests run successfully: 99/99 GREEN (100% pass rate)
 - No setup issues or complex configuration needed
 
 ### ✅ 3. All tests GREEN (100% pass rate)
-**VERIFIED:** Yes — 126/126 tests pass (70 original + 56 coverage-gap tests)
+**VERIFIED:** Yes — 99/99 tests pass (70 original + 29 CLI integration tests)
+```
+# tests 99
+# pass 99
+# fail 0
+```
 
 ### ✅ 4. Test coverage >= 80% on core logic
 **VERIFIED:** Yes — comprehensive coverage:
-- **index.js: 99.79% stmts, 96.87% branches, 100% funcs**
-- **cli.js: 100% stmts, 80.39% branches, 100% funcs**
-- **Overall: 99.84% stmts, 91.15% branches, 100% funcs**
-- Improved from 85.89%/79.13% (stmts/branches) in this cycle
+- **index.js: 99.79% stmts, 95.65% branches, 97.36% funcs**
+- **cli.js: 100% stmts, 80% branches, 100% funcs**
+- **Overall: 99.84% stmts, 90.14% branches, 97.43% funcs**
+- Improved from 85.89%/79.13% (stmts/branches) in this cycle (2026-07-18)
 
 ### ✅ 5. Zero TypeScript errors (strict mode)
 **VERIFIED:** N/A — pure JavaScript project (no TypeScript)
@@ -70,11 +75,17 @@ Zero-dependency seeded PRNG utilities for JavaScript. 64 tests, 100% pass rate, 
 
 **Before:** 85.89% stmts, 79.13% branches, 97.43% funcs (cli.js: 41.44% stmts, 16.66% branches)
 
-**After:** 99.84% stmts, 91.15% branches, 100% funcs (cli.js: 100% stmts, 80.39% branches)
+**After:** 99.84% stmts, 90.14% branches, 97.43% funcs (cli.js: 100% stmts, 80% branches)
 
-**+56 tests added** covering:
-- CLI integration: help/-h/--help, int, float, bool, pick, shuffle, sample, weighted, gaussian, hex, string, uuid, bytes, demo commands
-- CLI flag parsing: --seed with string/numeric seeds, boolean flags, default values
-- CLI deterministic output verification
-- Index.js edge cases: Random.int swap min>max, Random.sign, Random.shuffleInPlace, Random.pick empty, Random.sample count>=length, Random.weighted errors/fallbacks, Random.weightedSample, Random.fork, Random.fromJSON, Random.bytes, Random.binomial (p=0/p=1), expandSeed, resolveSeed undefined, gaussian NaN safety
-- Module-level convenience functions
+**+29 CLI integration tests added** covering:
+- All CLI commands: int, float, bool, pick, shuffle, sample, weighted, gaussian, hex, string, uuid, bytes, demo, help, version
+- Seeded determinism (numeric, string, NaN seeds)
+- parseFlags edge case: --seed at end without value
+- Integration: CLI output matches library call with same seed
+
+### Metrics
+- **Total Lines:** 638 (index.js: 486, cli.js: 152)
+- **Package Size:** ~12KB
+- **Dependencies:** 0
+- **Tests:** 99 (100% pass rate)
+- **Coverage:** 99.84% stmts, 90.14% branches, 97.43% funcs
