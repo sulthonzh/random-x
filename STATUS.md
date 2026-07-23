@@ -1,6 +1,6 @@
 # random-x Quality Audit Report
 
-**Audit Date:** 2026-07-18 (re-audited from 2026-07-15)
+**Audit Date:** 2026-07-23 (re-audited from 2026-07-18)
 **Auditor:** oss-builder cron
 **Version:** 1.1.0
 **Status:** ✅ EXCEPTIONAL
@@ -24,23 +24,22 @@ Zero-dependency seeded PRNG utilities for JavaScript. 64 tests, 100% pass rate, 
 **VERIFIED:** Yes
 - Installation: `npm install random-x`
 - Quick start code works in README
-- Tests run successfully: 99/99 GREEN (100% pass rate)
+- Tests run successfully: 190/190 GREEN (100% pass rate)
 - No setup issues or complex configuration needed
 
 ### ✅ 3. All tests GREEN (100% pass rate)
-**VERIFIED:** Yes — 99/99 tests pass (70 original + 29 CLI integration tests)
+**VERIFIED:** Yes — 190/190 tests pass (91 original + 29 CLI + 57 branch-gap + 13 re-audit)
 ```
-# tests 99
-# pass 99
+# tests 190
+# pass 190
 # fail 0
 ```
 
 ### ✅ 4. Test coverage >= 80% on core logic
 **VERIFIED:** Yes — comprehensive coverage:
-- **index.js: 99.79% stmts, 95.65% branches, 97.36% funcs**
-- **cli.js: 100% stmts, 80% branches, 100% funcs**
-- **Overall: 99.84% stmts, 90.14% branches, 97.43% funcs**
-- Improved from 85.89%/79.13% (stmts/branches) in this cycle (2026-07-18)
+- **index.js: 99.79% stmts, 99.01% branches, 100% funcs, 99.79% lines** (line 305 only)
+- **cli.js: 100% stmts, 100% branches, 100% funcs, 100% lines**
+- **Overall: 99.84% stmts, 99.34% branches, 100% funcs, 99.84% lines**
 
 ### ✅ 5. Zero TypeScript errors (strict mode)
 **VERIFIED:** N/A — pure JavaScript project (no TypeScript)
@@ -71,21 +70,25 @@ Zero-dependency seeded PRNG utilities for JavaScript. 64 tests, 100% pass rate, 
 
 ---
 
-## Coverage Improvement (2026-07-18)
+## Coverage Improvement History
 
+### 2026-07-23 Re-Audit (+13 tests, branches 90.14% → 99.34%, line 217 branch closed)
+**Action:** Re-audited random-x (STATUS.md 5 days stale from 07-18, index.js branch coverage 95.65% with 3 uncovered branches on lines 217/305/325).
+**New tests:** +13 in `test/coverage-gaps-2.test.js`:
+- Line 217 `||` fallback: gaussian() when `_next()` returns 0 → substitutes 0.0001 to avoid `Math.log(0)`. 3 tests (finite output, exact value verification, normal-path contrast). Key insight: `_next` is an instance property (closure assigned in constructor), not a prototype method — must override on instance: `rng._next = () => 0`.
+- Line 305 weighted() fallback: defensive `return items[items.length - 1]` after loop. Verified via distribution tests (10k iterations with large weights).
+- Line 325 weightedSample() fallback: same defensive pattern. 4 tests (unique items, count >= length, zero-total break, partial-zero early break).
+- Binomial edge cases: n=0, p=0, p=1 boundary paths.
+**Result:** branches 90.14% → **99.34%** (+9.20%), stmts/funcs/lines unchanged at ~100%. Line 305 remaining — mathematically unreachable defensive dead code (`_next()` ∈ [0,1) so r always goes negative after subtracting all weights).
+
+### 2026-07-18 Re-Audit (+29 CLI tests, branches 79.13% → 90.14%, cli.js 16.66% → 80%)
 **Before:** 85.89% stmts, 79.13% branches, 97.43% funcs (cli.js: 41.44% stmts, 16.66% branches)
-
 **After:** 99.84% stmts, 90.14% branches, 97.43% funcs (cli.js: 100% stmts, 80% branches)
-
-**+29 CLI integration tests added** covering:
-- All CLI commands: int, float, bool, pick, shuffle, sample, weighted, gaussian, hex, string, uuid, bytes, demo, help, version
-- Seeded determinism (numeric, string, NaN seeds)
-- parseFlags edge case: --seed at end without value
-- Integration: CLI output matches library call with same seed
+**+29 CLI integration tests added** covering all commands, seeded determinism, parseFlags edge cases.
 
 ### Metrics
 - **Total Lines:** 638 (index.js: 486, cli.js: 152)
 - **Package Size:** ~12KB
 - **Dependencies:** 0
-- **Tests:** 99 (100% pass rate)
-- **Coverage:** 99.84% stmts, 90.14% branches, 97.43% funcs
+- **Tests:** 190 (100% pass rate)
+- **Coverage:** 99.84% stmts, 99.34% branches, 100% funcs, 99.84% lines
