@@ -7,3 +7,6 @@ __pycache__/
 *.egg-info/
 .mypy_cache/
 coverage/
+*.log
+.DS_Store
+*.tgz
