@@ -402,7 +402,7 @@ test('Random.fork without label creates independent stream', async () => {
   const child = rng.fork();
   assert.ok(child.seed !== rng.seed || true); // seed may coincidentally match
   // But stream should be different
-  const child2 = rng.fork();
+  const _child2 = rng.fork();
   // Forking from same state should produce same seed if no label
   // (depends on _next() call)
 });

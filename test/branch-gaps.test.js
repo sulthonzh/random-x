@@ -138,7 +138,7 @@ test('CLI string with no alphabet uses || undefined', () => {
   // But we need --seed. Hmm.
   // args[2] || undefined: if args[2] is '--seed' (truthy) → alphabet='--seed'
   // To get || undefined: args[2] must be falsy → pass '' or nothing
-  const out = runCli('string', '5', '--seed', '42');
+  const _out = runCli('string', '5', '--seed', '42');
   // args = ['string', '5', '--seed', '42'] → args[2]='--seed' → truthy → alphabet='--seed'
   // Not the || undefined branch. To hit it: args[2] must be falsy.
   // string 5 '' --seed 42 → args[2]='' → falsy → || undefined

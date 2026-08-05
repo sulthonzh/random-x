@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { Random, createRandom, VERSION } from './index.js';
+import { createRandom, VERSION } from './index.js';
 
 const args = process.argv.slice(2);
 const command = args[0] || 'help';

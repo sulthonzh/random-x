@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {
   Random, createRandom, mulberry32, xoshiro128ss,
   resolveSeed, splitMix32, expandSeed,
-  random, int, float, bool, shuffle, pick, sample, weighted, gaussian,
+  int, float, bool, shuffle, pick, sample, weighted, gaussian,
   VERSION,
 } from '../src/index.js';
 import { execFileSync } from 'node:child_process';
